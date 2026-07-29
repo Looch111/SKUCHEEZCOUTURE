@@ -320,7 +320,6 @@ function LoadingScreen({ onComplete, onPortalStart }) {
             alt="SKUCHEEZ COUTURE Logo"
             width={340}
             height={95}
-            style={{ width: "auto", height: "auto" }}
             priority
             className={styles.loaderLogo}
           />
@@ -511,7 +510,6 @@ export default function Home() {
                 alt="SKUCHEEZ COUTURE Logo"
                 width={320}
                 height={90}
-                style={{ width: "auto", height: "auto" }}
                 className={styles.logoImg}
                 priority
               />
