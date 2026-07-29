@@ -261,11 +261,20 @@ export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const heroVideoRef = useRef(null);
   const storyVideoRef = useRef(null);
+  const mannequinWrapperRef = useRef(null);
+  const calloutContainerRef = useRef(null);
+  const rightContentRef = useRef(null);
+  const scrollIndicatorRef = useRef(null);
   const [isPortalOpening, setIsPortalOpening] = useState(false);
+  const [isNavHidden, setIsNavHidden] = useState(false);
+
+  // Pre-buffer videos immediately when component mounts so cold load is lag-free
+  useEffect(() => {
+    if (heroVideoRef.current) heroVideoRef.current.load();
+    if (storyVideoRef.current) storyVideoRef.current.load();
+  }, []);
 
   // Pre-roll videos the moment portal doors begin splitting open.
-  // This gives ~2.4 seconds of buffer so the video is already
-  // running fluidly by the time the portal is fully gone.
   useEffect(() => {
     if (!isPortalOpening) return;
     const play = (ref) => {
@@ -274,7 +283,6 @@ export default function Home() {
       }
     };
     play(heroVideoRef);
-    // Slight delay for story video — it’s off-screen anyway
     setTimeout(() => play(storyVideoRef), 300);
   }, [isPortalOpening]);
 
@@ -300,7 +308,6 @@ export default function Home() {
       document.body.style.overflow = "";
     };
   }, [isLoading, mobileSelectedCard]);
-
   // Typewriter Effect for Hero Headline & Callout Pin
   const [typedPart1, setTypedPart1] = useState("");
   const [typedPart2, setTypedPart2] = useState("");
@@ -332,7 +339,6 @@ export default function Home() {
               clearInterval(interval2);
               setIsTypingComplete(true);
 
-              // Start typewriter for "Crafted in Warri." callout pin
               let idxCallout = 0;
               const intervalCallout = setInterval(() => {
                 if (idxCallout <= calloutFullText.length) {
@@ -352,9 +358,7 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [isLoading]);
 
-  const [scrollY, setScrollY] = useState(0);
-  const [isNavHidden, setIsNavHidden] = useState(false);
-
+  // Optimized zero-re-render scroll handler via rAF & direct DOM manipulation
   useEffect(() => {
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -374,8 +378,26 @@ export default function Home() {
             lastScrollY = currentScrollY;
           }
 
-          if (currentScrollY < 800) {
-            setScrollY(currentScrollY);
+          if (currentScrollY <= 800) {
+            if (mannequinWrapperRef.current) {
+              mannequinWrapperRef.current.style.transform = `translate3d(-50%, calc(-46% - ${currentScrollY * 0.2}px), 0)`;
+              mannequinWrapperRef.current.style.opacity = Math.max(0, 1 - currentScrollY / 550);
+            }
+            if (calloutContainerRef.current) {
+              calloutContainerRef.current.style.transform = `translate3d(0, ${-currentScrollY * 0.35}px, 0)`;
+              calloutContainerRef.current.style.opacity = Math.max(0, 1 - currentScrollY / 400);
+            }
+            if (rightContentRef.current) {
+              rightContentRef.current.style.transform = `translate3d(0, ${-currentScrollY * 0.45}px, 0)`;
+              rightContentRef.current.style.opacity = Math.max(0, 1 - currentScrollY / 450);
+            }
+            if (scrollIndicatorRef.current) {
+              if (currentScrollY > 80) {
+                scrollIndicatorRef.current.classList.add(styles.scrollIndicatorHidden);
+              } else {
+                scrollIndicatorRef.current.classList.remove(styles.scrollIndicatorHidden);
+              }
+            }
           }
 
           ticking = false;
@@ -566,15 +588,13 @@ export default function Home() {
 
           {/* Center Agbada Mannequin Showcase */}
           <div
+            ref={mannequinWrapperRef}
             className={styles.mannequinWrapper}
-            style={{
-              transform: `translate3d(-50%, calc(-46% - ${scrollY * 0.2}px), 0)`,
-              opacity: Math.max(0, 1 - scrollY / 550),
-            }}
           >
             <video
               ref={heroVideoRef}
               src="/man.mp4"
+              preload="auto"
               loop
               muted
               playsInline
@@ -584,11 +604,8 @@ export default function Home() {
 
           {/* Pinned Chest Annotation: "Crafted in Warri." */}
           <div
+            ref={calloutContainerRef}
             className={styles.calloutContainer}
-            style={{
-              transform: `translate3d(0, ${-scrollY * 0.35}px, 0)`,
-              opacity: Math.max(0, 1 - scrollY / 400),
-            }}
           >
             <div className={styles.calloutTextWrapper}>
               <p className={styles.calloutText}>
@@ -652,11 +669,8 @@ export default function Home() {
 
           {/* Hero Right Content Card */}
           <div
+            ref={rightContentRef}
             className={styles.rightContent}
-            style={{
-              transform: `translate3d(0, ${-scrollY * 0.45}px, 0)`,
-              opacity: Math.max(0, 1 - scrollY / 450),
-            }}
           >
             <span className={styles.categoryTag}>SKUCHEEZ COUTURE · WARRI DELTA STATE</span>
             <h1 className={styles.mainHeading}>
@@ -682,9 +696,9 @@ export default function Home() {
 
           {/* Bottom Scroll Indicator */}
           <a
+            ref={scrollIndicatorRef}
             href="#story"
-            className={`${styles.scrollIndicator} ${scrollY > 80 ? styles.scrollIndicatorHidden : ""
-              }`}
+            className={styles.scrollIndicator}
           >
             <span className={styles.scrollArrow}>↓</span>
             <span>Scroll</span>
@@ -706,6 +720,7 @@ export default function Home() {
               <div className={styles.storyVideoWrapper}>
                 <video
                   ref={storyVideoRef}
+                  preload="auto"
                   loop
                   muted
                   playsInline
@@ -718,7 +733,7 @@ export default function Home() {
               <div className={styles.storyOverlayGradient} />
             </div>
 
-            <div className={`${styles.storyContentOverlay} revealOnScroll`}>
+            <div className={styles.storyContentOverlay}>
               <span className={styles.storyCategoryTag}>The Atelier Story</span>
               <h2 className={styles.storyHeading}>
                 Where heritage meets <span className={styles.storyItalic}>couture.</span>

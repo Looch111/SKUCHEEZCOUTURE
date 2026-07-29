@@ -92,6 +92,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${jakarta.variable} ${italiana.variable}`}>
+      <head>
+        <link rel="preload" href="/man.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/logo.webp" as="image" type="image/webp" />
+      </head>
       <body>{children}</body>
     </html>
   );
