@@ -183,17 +183,48 @@ function LoadingScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // 1. Background preload critical image assets into browser cache
+    const criticalAssets = [
+      "/logo.png",
+      "/about1.webp",
+      "/card-img/owner.webp",
+      "/card-img/card1.png",
+      "/card-img/card2.png",
+      "/card-img/card3.png",
+      "/card-img/card4.png",
+      "/card-img/card5.png",
+      "/card-img/card6.png",
+      "/card-img/card7.png",
+      "/card-img/card8.png",
+    ];
+
+    if (typeof window !== "undefined") {
+      criticalAssets.forEach((src) => {
+        const img = new window.Image();
+        img.src = src;
+      });
+
+      // 2. Preload video buffers into memory
+      ["/man.mp4", "/vid.mp4"].forEach((src) => {
+        const video = document.createElement("video");
+        video.preload = "auto";
+        video.src = src;
+      });
+    }
+
+    // 3. Smooth luxury progress ticker pacing
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setIsOpeningPortal(true), 1200);
-          setTimeout(() => onComplete(), 3600);
+          setTimeout(() => setIsOpeningPortal(true), 800);
+          setTimeout(() => onComplete(), 2800);
           return 100;
         }
-        return prev + Math.floor(Math.random() * 4 + 2);
+        const increment = prev < 80 ? Math.floor(Math.random() * 3 + 2) : 1;
+        return Math.min(100, prev + increment);
       });
-    }, 110);
+    }, 45);
 
     return () => clearInterval(timer);
   }, [onComplete]);
@@ -202,19 +233,22 @@ function LoadingScreen({ onComplete }) {
     <div className={styles.loaderContainer}>
       {/* Left Portal Door */}
       <div
-        className={`${styles.portalDoor} ${styles.portalDoorLeft} ${isOpeningPortal ? styles.openLeft : ""
-          }`}
+        className={`${styles.portalDoor} ${styles.portalDoorLeft} ${
+          isOpeningPortal ? styles.openLeft : ""
+        }`}
       />
       {/* Right Portal Door */}
       <div
-        className={`${styles.portalDoor} ${styles.portalDoorRight} ${isOpeningPortal ? styles.openRight : ""
-          }`}
+        className={`${styles.portalDoor} ${styles.portalDoorRight} ${
+          isOpeningPortal ? styles.openRight : ""
+        }`}
       />
 
       {/* Expanding Central Gold Shockwave Flare */}
       <div
-        className={`${styles.portalRingFlare} ${isOpeningPortal ? styles.expandFlare : ""
-          }`}
+        className={`${styles.portalRingFlare} ${
+          isOpeningPortal ? styles.expandFlare : ""
+        }`}
       />
 
       {/* Center Logo Content */}
@@ -244,7 +278,9 @@ function LoadingScreen({ onComplete }) {
             style={{ width: `${Math.min(progress, 100)}%` }}
           />
         </div>
-        <span className={styles.loaderPercent}>{Math.min(progress, 100)}%</span>
+        <span className={styles.loaderPercent}>
+          {progress >= 100 ? "100% · ATELIER READY" : `${Math.min(progress, 100)}%`}
+        </span>
       </div>
     </div>
   );
@@ -546,16 +582,15 @@ export default function Home() {
               opacity: Math.max(0, 1 - scrollY / 550),
             }}
           >
-            {!isLoading && (
-              <video
-                src="/man.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={styles.mannequinVideo}
-              />
-            )}
+            <video
+              src="/man.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              className={styles.mannequinVideo}
+            />
           </div>
 
           {/* Pinned Chest Annotation: "Crafted in Warri." */}
@@ -680,17 +715,16 @@ export default function Home() {
                 className={styles.storyBgImgDesktop}
               />
               <div className={styles.storyVideoWrapper}>
-                {!isLoading && (
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className={styles.storyBgVideoMobile}
-                  >
-                    <source src="/vid.mp4" type="video/mp4" />
-                  </video>
-                )}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className={styles.storyBgVideoMobile}
+                >
+                  <source src="/vid.mp4" type="video/mp4" />
+                </video>
                 <div className={styles.storyVideoBlendOverlay} />
               </div>
               <div className={styles.storyOverlayGradient} />
