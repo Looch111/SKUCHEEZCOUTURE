@@ -25,8 +25,10 @@ export const viewport = {
   colorScheme: "dark",
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://skucheezcouture.vercel.app";
+
 export const metadata = {
-  metadataBase: new URL("https://skucheez-couture.com"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "SKUCHEEZ COUTURE — Luxury West African Menswear",
     template: "%s | SKUCHEEZ COUTURE",
@@ -51,30 +53,30 @@ export const metadata = {
     title: "SKUCHEEZ COUTURE — Luxury West African Menswear",
     description:
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
-    url: "https://skucheez-couture.com",
+    url: baseUrl,
     siteName: "SKUCHEEZ COUTURE",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "https://skucheez-couture.com/og-image.png",
-        secureUrl: "https://skucheez-couture.com/og-image.png",
+        url: `${baseUrl}/og-image.png`,
+        secureUrl: `${baseUrl}/og-image.png`,
         width: 1200,
         height: 630,
         type: "image/png",
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
       },
       {
-        url: "https://skucheez-couture.com/api/og",
-        secureUrl: "https://skucheez-couture.com/api/og",
+        url: `${baseUrl}/api/og`,
+        secureUrl: `${baseUrl}/api/og`,
         width: 1200,
         height: 630,
         type: "image/png",
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear Banner",
       },
       {
-        url: "https://skucheez-couture.com/og-image.jpg",
-        secureUrl: "https://skucheez-couture.com/og-image.jpg",
+        url: `${baseUrl}/og-image.jpg`,
+        secureUrl: `${baseUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
         type: "image/jpeg",
@@ -91,7 +93,7 @@ export const metadata = {
     creator: "@Skucheezfx",
     images: [
       {
-        url: "https://skucheez-couture.com/og-image.png",
+        url: `${baseUrl}/og-image.png`,
         width: 1200,
         height: 630,
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
