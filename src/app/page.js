@@ -183,22 +183,107 @@ function LoadingScreen({ onComplete, onPortalStart }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    let isMounted = true;
+    let loadedCount = 0;
+    let hasTriggeredOpen = false;
+
+    const criticalAssets = [
+      "/logo.png",
+      "/about1.webp",
+      "/owner.png",
+      "/card-img/card1.png",
+      "/card-img/card2.png",
+      "/card-img/card3.png",
+      "/card-img/card4.png",
+      "/card-img/card5.png",
+    ];
+
+    const totalCount = criticalAssets.length + 2; // Assets + 2 videos
+
+    const triggerCompletion = () => {
+      if (hasTriggeredOpen || !isMounted) return;
+      hasTriggeredOpen = true;
+
+      setProgress(100);
+      setTimeout(() => {
+        if (!isMounted) return;
+        setIsOpeningPortal(true);
+        if (onPortalStart) onPortalStart();
+      }, 500);
+
+      setTimeout(() => {
+        if (!isMounted) return;
+        onComplete();
+      }, 2500);
+    };
+
+    const updateItemLoaded = () => {
+      if (!isMounted || hasTriggeredOpen) return;
+      loadedCount++;
+      const pct = Math.min(99, Math.floor((loadedCount / totalCount) * 100));
+      setProgress((prev) => Math.max(prev, pct));
+
+      if (loadedCount >= totalCount) {
+        triggerCompletion();
+      }
+    };
+
+    // 1. Preload Images into memory
+    criticalAssets.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+      if (img.complete) {
+        updateItemLoaded();
+      } else {
+        img.onload = updateItemLoaded;
+        img.onerror = updateItemLoaded;
+      }
+    });
+
+    // 2. Preload Video Media buffers
+    ["/man.mp4", "/vid.mp4"].forEach((src) => {
+      const v = document.createElement("video");
+      v.src = src;
+      v.preload = "auto";
+      v.muted = true;
+      v.playsInline = true;
+
+      const handleCanPlay = () => {
+        v.removeEventListener("canplaythrough", handleCanPlay);
+        v.removeEventListener("loadeddata", handleCanPlay);
+        updateItemLoaded();
+      };
+
+      if (v.readyState >= 3) {
+        updateItemLoaded();
+      } else {
+        v.addEventListener("canplaythrough", handleCanPlay, { once: true });
+        v.addEventListener("loadeddata", handleCanPlay, { once: true });
+        v.onerror = updateItemLoaded;
+      }
+
+      // Safety timeout for mobile video preloader
+      setTimeout(() => {
+        if (v.readyState >= 1) updateItemLoaded();
+      }, 1200);
+    });
+
+    // Smooth fallback progress tick (ensures 100% guarantee completion even on slow 3G)
+    const fallbackTimer = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => {
-            setIsOpeningPortal(true);
-            if (onPortalStart) onPortalStart();
-          }, 1200);
-          setTimeout(() => onComplete(), 3600);
+        if (prev >= 98) {
+          clearInterval(fallbackTimer);
+          if (!hasTriggeredOpen) triggerCompletion();
           return 100;
         }
-        return prev + Math.floor(Math.random() * 4 + 2);
+        return prev + 3;
       });
-    }, 110);
+    }, 70);
 
-    return () => clearInterval(timer);
+    return () => {
+      isMounted = false;
+      clearInterval(fallbackTimer);
+    };
   }, [onComplete, onPortalStart]);
 
   return (
