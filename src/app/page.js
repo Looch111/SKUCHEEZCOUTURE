@@ -683,6 +683,7 @@ export default function Home() {
                   loop
                   muted
                   playsInline
+                  preload="metadata"
                   className={styles.storyBgVideoMobile}
                 >
                   <source src="/vid.mp4" type="video/mp4" />
