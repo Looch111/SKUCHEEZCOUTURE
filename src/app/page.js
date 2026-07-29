@@ -178,65 +178,28 @@ const collectionItems = [
   },
 ];
 
-function LoadingScreen({ onComplete }) {
+function LoadingScreen({ onComplete, onPortalOpen }) {
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Realistic luxury cadence: load small -> pause -> load -> pause -> reach 100% -> hold -> open portal
-    const steps = [
-      { target: 26, incrementSpeed: 30, pauseAfter: 350 },
-      { target: 62, incrementSpeed: 35, pauseAfter: 420 },
-      { target: 91, incrementSpeed: 30, pauseAfter: 300 },
-      { target: 100, incrementSpeed: 40, pauseAfter: 1200 },
-    ];
-
-    let currentStep = 0;
-    let isCancelled = false;
-
-    const processStep = () => {
-      if (isCancelled || currentStep >= steps.length) return;
-
-      const { target, incrementSpeed, pauseAfter } = steps[currentStep];
-
-      const interval = setInterval(() => {
-        if (isCancelled) {
-          clearInterval(interval);
-          return;
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(() => {
+            setIsOpeningPortal(true);
+            onPortalOpen && onPortalOpen();
+          }, 1200);
+          setTimeout(() => onComplete(), 3600);
+          return 100;
         }
+        return prev + Math.floor(Math.random() * 4 + 2);
+      });
+    }, 110);
 
-        setProgress((prev) => {
-          if (prev >= target) {
-            clearInterval(interval);
-            currentStep++;
-
-            if (currentStep < steps.length) {
-              setTimeout(processStep, pauseAfter);
-            } else {
-              // Reached 100% and finished pauseAfter hold, trigger portal split
-              setTimeout(() => {
-                if (!isCancelled) {
-                  setIsOpeningPortal(true);
-                  setTimeout(() => {
-                    if (!isCancelled) onComplete();
-                  }, 1200);
-                }
-              }, pauseAfter);
-            }
-            return target;
-          }
-          return prev + 1;
-        });
-      }, incrementSpeed);
-    };
-
-    const initialDelay = setTimeout(processStep, 200);
-
-    return () => {
-      isCancelled = true;
-      clearTimeout(initialDelay);
-    };
-  }, [onComplete]);
+    return () => clearInterval(timer);
+  }, [onComplete, onPortalOpen]);
 
   return (
     <div className={styles.loaderContainer}>
@@ -296,6 +259,24 @@ export default function Home() {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [mobileSelectedCard, setMobileSelectedCard] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const heroVideoRef = useRef(null);
+  const storyVideoRef = useRef(null);
+  const [isPortalOpening, setIsPortalOpening] = useState(false);
+
+  // Pre-roll videos the moment portal doors begin splitting open.
+  // This gives ~2.4 seconds of buffer so the video is already
+  // running fluidly by the time the portal is fully gone.
+  useEffect(() => {
+    if (!isPortalOpening) return;
+    const play = (ref) => {
+      if (ref.current) {
+        ref.current.play().catch(() => {});
+      }
+    };
+    play(heroVideoRef);
+    // Slight delay for story video — it’s off-screen anyway
+    setTimeout(() => play(storyVideoRef), 300);
+  }, [isPortalOpening]);
 
   // Ensure page always starts at the top on refresh
   useEffect(() => {
@@ -434,7 +415,12 @@ export default function Home() {
 
   return (
     <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {isLoading && (
+        <LoadingScreen
+          onComplete={() => setIsLoading(false)}
+          onPortalOpen={() => setIsPortalOpening(true)}
+        />
+      )}
       <div className={`${styles.pageContainer} ${!isLoading ? styles.pageLoaded : ""}`}>
         {/* ---------------- SECTION 1: HERO SHOWCASE ---------------- */}
         <section className={styles.heroContainer}>
@@ -442,7 +428,7 @@ export default function Home() {
           <div className={styles.bgVignette} />
 
           {/* Ambient Flying Gold Dust Particles */}
-          {!isLoading && <GoldParticles />}
+          <GoldParticles />
 
           {/* Header Navigation Bar */}
           <header
@@ -587,12 +573,11 @@ export default function Home() {
             }}
           >
             <video
+              ref={heroVideoRef}
               src="/man.mp4"
-              autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
               className={styles.mannequinVideo}
             />
           </div>
@@ -720,11 +705,10 @@ export default function Home() {
               />
               <div className={styles.storyVideoWrapper}>
                 <video
-                  autoPlay
+                  ref={storyVideoRef}
                   loop
                   muted
                   playsInline
-                  preload="metadata"
                   className={styles.storyBgVideoMobile}
                 >
                   <source src="/vid.mp4" type="video/mp4" />

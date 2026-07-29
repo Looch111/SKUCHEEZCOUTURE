@@ -104,7 +104,7 @@ export default function BespokeModal({ isOpen, onClose }) {
                     id="phone"
                     type="tel"
                     required
-                    placeholder="+234 701 314 4975"
+                    placeholder="+234 800 000 0000"
                     className={styles.input}
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
