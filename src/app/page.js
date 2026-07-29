@@ -268,22 +268,19 @@ export default function Home() {
   const [isPortalOpening, setIsPortalOpening] = useState(false);
   const [isNavHidden, setIsNavHidden] = useState(false);
 
-  // Pre-buffer videos immediately when component mounts so cold load is lag-free
+  // Ensure videos begin playing immediately on mount and when portal opens
   useEffect(() => {
-    if (heroVideoRef.current) heroVideoRef.current.load();
-    if (storyVideoRef.current) storyVideoRef.current.load();
+    const playVideos = () => {
+      if (heroVideoRef.current) heroVideoRef.current.play().catch(() => {});
+      if (storyVideoRef.current) storyVideoRef.current.play().catch(() => {});
+    };
+    playVideos();
   }, []);
 
-  // Pre-roll videos the moment portal doors begin splitting open.
   useEffect(() => {
     if (!isPortalOpening) return;
-    const play = (ref) => {
-      if (ref.current) {
-        ref.current.play().catch(() => {});
-      }
-    };
-    play(heroVideoRef);
-    setTimeout(() => play(storyVideoRef), 300);
+    if (heroVideoRef.current) heroVideoRef.current.play().catch(() => {});
+    if (storyVideoRef.current) storyVideoRef.current.play().catch(() => {});
   }, [isPortalOpening]);
 
   // Ensure page always starts at the top on refresh
@@ -594,6 +591,7 @@ export default function Home() {
             <video
               ref={heroVideoRef}
               src="/man.mp4"
+              autoPlay
               preload="auto"
               loop
               muted
@@ -720,6 +718,7 @@ export default function Home() {
               <div className={styles.storyVideoWrapper}>
                 <video
                   ref={storyVideoRef}
+                  autoPlay
                   preload="auto"
                   loop
                   muted
