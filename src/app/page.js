@@ -27,7 +27,7 @@ function GoldParticles() {
     window.addEventListener("resize", handleResize, { passive: true });
 
     const isMobile = width < 768;
-    const particleCount = isMobile ? 12 : 50;
+    const particleCount = isMobile ? 30 : 60;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -178,113 +178,25 @@ const collectionItems = [
   },
 ];
 
-function LoadingScreen({ onComplete, onPortalStart }) {
+function LoadingScreen({ onComplete }) {
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let isMounted = true;
-    let loadedCount = 0;
-    let hasTriggeredOpen = false;
-
-    const criticalAssets = [
-      "/logo.png",
-      "/about1.webp",
-      "/owner.png",
-      "/card-img/card1.png",
-      "/card-img/card2.png",
-      "/card-img/card3.png",
-      "/card-img/card4.png",
-      "/card-img/card5.png",
-    ];
-
-    const totalCount = criticalAssets.length + 2; // Assets + 2 videos
-
-    const triggerCompletion = () => {
-      if (hasTriggeredOpen || !isMounted) return;
-      hasTriggeredOpen = true;
-
-      setProgress(100);
-      setTimeout(() => {
-        if (!isMounted) return;
-        setIsOpeningPortal(true);
-        if (onPortalStart) onPortalStart();
-      }, 500);
-
-      setTimeout(() => {
-        if (!isMounted) return;
-        onComplete();
-      }, 2500);
-    };
-
-    const updateItemLoaded = () => {
-      if (!isMounted || hasTriggeredOpen) return;
-      loadedCount++;
-      const pct = Math.min(99, Math.floor((loadedCount / totalCount) * 100));
-      setProgress((prev) => Math.max(prev, pct));
-
-      if (loadedCount >= totalCount) {
-        triggerCompletion();
-      }
-    };
-
-    // 1. Preload Images into memory
-    criticalAssets.forEach((src) => {
-      const img = new window.Image();
-      img.src = src;
-      if (img.complete) {
-        updateItemLoaded();
-      } else {
-        img.onload = updateItemLoaded;
-        img.onerror = updateItemLoaded;
-      }
-    });
-
-    // 2. Preload Video Media buffers
-    ["/man.mp4", "/vid.mp4"].forEach((src) => {
-      const v = document.createElement("video");
-      v.src = src;
-      v.preload = "auto";
-      v.muted = true;
-      v.playsInline = true;
-
-      const handleCanPlay = () => {
-        v.removeEventListener("canplaythrough", handleCanPlay);
-        v.removeEventListener("loadeddata", handleCanPlay);
-        updateItemLoaded();
-      };
-
-      if (v.readyState >= 3) {
-        updateItemLoaded();
-      } else {
-        v.addEventListener("canplaythrough", handleCanPlay, { once: true });
-        v.addEventListener("loadeddata", handleCanPlay, { once: true });
-        v.onerror = updateItemLoaded;
-      }
-
-      // Safety timeout for mobile video preloader
-      setTimeout(() => {
-        if (v.readyState >= 1) updateItemLoaded();
-      }, 1200);
-    });
-
-    // Smooth fallback progress tick (ensures 100% guarantee completion even on slow 3G)
-    const fallbackTimer = setInterval(() => {
+    const timer = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 98) {
-          clearInterval(fallbackTimer);
-          if (!hasTriggeredOpen) triggerCompletion();
+        if (prev >= 100) {
+          clearInterval(timer);
+          setTimeout(() => setIsOpeningPortal(true), 1200);
+          setTimeout(() => onComplete(), 3600);
           return 100;
         }
-        return prev + 3;
+        return prev + Math.floor(Math.random() * 4 + 2);
       });
-    }, 70);
+    }, 110);
 
-    return () => {
-      isMounted = false;
-      clearInterval(fallbackTimer);
-    };
-  }, [onComplete, onPortalStart]);
+    return () => clearInterval(timer);
+  }, [onComplete]);
 
   return (
     <div className={styles.loaderContainer}>
@@ -340,7 +252,6 @@ function LoadingScreen({ onComplete, onPortalStart }) {
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isPortalOpening, setIsPortalOpening] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [mobileSelectedCard, setMobileSelectedCard] = useState(null);
@@ -483,12 +394,7 @@ export default function Home() {
 
   return (
     <>
-      {isLoading && (
-        <LoadingScreen
-          onComplete={() => setIsLoading(false)}
-          onPortalStart={() => setIsPortalOpening(true)}
-        />
-      )}
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       <div className={`${styles.pageContainer} ${!isLoading ? styles.pageLoaded : ""}`}>
         {/* ---------------- SECTION 1: HERO SHOWCASE ---------------- */}
         <section className={styles.heroContainer}>
@@ -496,7 +402,7 @@ export default function Home() {
           <div className={styles.bgVignette} />
 
           {/* Ambient Flying Gold Dust Particles */}
-          {(isPortalOpening || !isLoading) && <GoldParticles />}
+          {!isLoading && <GoldParticles />}
 
           {/* Header Navigation Bar */}
           <header
@@ -640,16 +546,15 @@ export default function Home() {
               opacity: Math.max(0, 1 - scrollY / 550),
             }}
           >
-            {(isPortalOpening || !isLoading) && (
-              <video
-                src="/man.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                className={styles.mannequinVideo}
-              />
-            )}
+            <video
+              src="/man.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              className={styles.mannequinVideo}
+            />
           </div>
 
           {/* Pinned Chest Annotation: "Crafted in Warri." */}
@@ -770,25 +675,22 @@ export default function Home() {
                 src="/about1.webp"
                 alt="Inside the SKUCHEEZ COUTURE atelier — tailors at work"
                 fill
-                priority
                 quality={95}
                 className={styles.storyBgImgDesktop}
               />
-              {(isPortalOpening || !isLoading) && (
-                <div className={styles.storyVideoWrapper}>
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    className={styles.storyBgVideoMobile}
-                  >
-                    <source src="/vid.mp4" type="video/mp4" />
-                  </video>
-                  <div className={styles.storyVideoBlendOverlay} />
-                </div>
-              )}
+              <div className={styles.storyVideoWrapper}>
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  className={styles.storyBgVideoMobile}
+                >
+                  <source src="/vid.mp4" type="video/mp4" />
+                </video>
+                <div className={styles.storyVideoBlendOverlay} />
+              </div>
               <div className={styles.storyOverlayGradient} />
             </div>
 

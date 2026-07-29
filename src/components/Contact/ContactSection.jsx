@@ -103,7 +103,7 @@ export default function ContactSection() {
             onClick={() => setIsMobileRevealed((prev) => !prev)}
           >
             <Image
-              src="/card-img/owner.png"
+              src="/card-img/owner.webp"
               alt="SKUCHEEZ COUTURE Founder"
               fill
               sizes="(max-width: 768px) 100vw, 45vw"
