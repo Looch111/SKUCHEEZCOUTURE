@@ -25,11 +25,7 @@ export const viewport = {
   colorScheme: "dark",
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL 
-  ? process.env.NEXT_PUBLIC_SITE_URL 
-  : process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
-    : "https://skucheez-couture.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://skucheezcouture.vercel.app";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -57,18 +53,19 @@ export const metadata = {
     title: "SKUCHEEZ COUTURE — Luxury West African Menswear",
     description:
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
+    url: siteUrl,
     siteName: "SKUCHEEZ COUTURE",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/logo.png",
+        url: "/og-logo.jpg",
         width: 1200,
         height: 630,
         alt: "SKUCHEEZ COUTURE Atelier Logo",
       },
       {
-        url: "/card-img/card5.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
@@ -82,7 +79,7 @@ export const metadata = {
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
     site: "@Skucheezfx",
     creator: "@Skucheezfx",
-    images: ["/logo.png", "/card-img/card5.png"],
+    images: ["/og-logo.jpg", "/og-image.jpg"],
   },
   icons: {
     icon: [
