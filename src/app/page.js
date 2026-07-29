@@ -546,15 +546,16 @@ export default function Home() {
               opacity: Math.max(0, 1 - scrollY / 550),
             }}
           >
-            <video
-              src="/man.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              className={styles.mannequinVideo}
-            />
+            {!isLoading && (
+              <video
+                src="/man.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={styles.mannequinVideo}
+              />
+            )}
           </div>
 
           {/* Pinned Chest Annotation: "Crafted in Warri." */}
@@ -679,16 +680,17 @@ export default function Home() {
                 className={styles.storyBgImgDesktop}
               />
               <div className={styles.storyVideoWrapper}>
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  className={styles.storyBgVideoMobile}
-                >
-                  <source src="/vid.mp4" type="video/mp4" />
-                </video>
+                {!isLoading && (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className={styles.storyBgVideoMobile}
+                  >
+                    <source src="/vid.mp4" type="video/mp4" />
+                  </video>
+                )}
                 <div className={styles.storyVideoBlendOverlay} />
               </div>
               <div className={styles.storyOverlayGradient} />
