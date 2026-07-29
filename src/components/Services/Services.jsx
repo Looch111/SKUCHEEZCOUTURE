@@ -11,7 +11,7 @@ const orderingServices = [
     timeline: '8 WEEKS · 3 FITTINGS',
     description:
       'A one-of-one garment, drawn from your measurements. Fabric, embroidery, silhouette — every decision is yours.',
-    image: '/card-img/suit2.jpg',
+    image: '/card-img/suit2.webp',
   },
   {
     num: '# 02',
@@ -19,7 +19,7 @@ const orderingServices = [
     timeline: '3 WEEKS · 1 FITTING',
     description:
       'Choose from existing patterns, adjusted to your body. Refined silhouettes ready in less than a month.',
-    image: '/card-img/card11.png',
+    image: '/card-img/card11.webp',
   },
   {
     num: '# 03',
@@ -27,7 +27,7 @@ const orderingServices = [
     timeline: '6 WEEKS · 2 FITTINGS',
     description:
       'Exclusive bespoke ensemble crafted for grooms and milestone celebrations. Custom iconography, signature embroidery, and dedicated fitting sessions.',
-    image: '/card-img/card7.png',
+    image: '/card-img/card7.webp',
   },
 ];
 

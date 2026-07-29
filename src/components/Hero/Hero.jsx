@@ -30,7 +30,7 @@ export default function Hero() {
 
         <div className={styles.mannequinWrapper}>
           <Image
-            src="/agbada-hero.png"
+            src="/card-img/card5.webp"
             alt="White Bespoke Nigerian Agbada on Mannequin"
             width={700}
             height={850}

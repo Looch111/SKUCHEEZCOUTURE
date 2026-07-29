@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Brand Header */}
         <div className={styles.brandHeader}>
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="SKUCHEEZ COUTURE"
             width={220}
             height={70}

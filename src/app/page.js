@@ -109,7 +109,7 @@ const collectionItems = [
     title: "ROYAL EMERALD AGBADA",
     materials: "FRENCH LACE · GOLD THREADWORK",
     eventDetails: "ENGAGEMENT · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card7.png",
+    image: "/card-img/card7.webp",
     rotation: "-7deg",
     translateY: "3.71px",
   },
@@ -118,7 +118,7 @@ const collectionItems = [
     title: "SLATE ARCHITECTURAL AGBADA",
     materials: "EMBROIDERED WOOL · DAMASK",
     eventDetails: "CORONATION · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card2.png",
+    image: "/card-img/card2.webp",
     rotation: "7deg",
     translateY: "0.25px",
   },
@@ -127,7 +127,7 @@ const collectionItems = [
     title: "OBSIDIAN BESPOKE KAFTAN",
     materials: "FINE CASHMERE · TONE-ON-TONE",
     eventDetails: "ROYAL WEDDING · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card11.png",
+    image: "/card-img/card11.webp",
     rotation: "-7deg",
     translateY: "-0.77px",
   },
@@ -136,7 +136,7 @@ const collectionItems = [
     title: "WHITE MOSAIC CEREMONIAL AGBADA",
     materials: "HAND-WOVEN BROCADE · GEOMETRIC THREAD",
     eventDetails: "SIGNATURE GALA · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card4.png",
+    image: "/card-img/card4.webp",
     rotation: "7deg",
     translateY: "-5.35px",
   },
@@ -145,7 +145,7 @@ const collectionItems = [
     title: "TACTICAL SAFARI SENATOR",
     materials: "PREMIUM COTTON · METALLIC HARNESS",
     eventDetails: "ANNIVERSARY · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card9.png",
+    image: "/card-img/card9.webp",
     rotation: "-7deg",
     translateY: "-13.1px",
   },
@@ -154,7 +154,7 @@ const collectionItems = [
     title: "CHAMPAGNE HERITAGE AGBADA",
     materials: "LUXURY SILK · DIAGONAL FLORAL CREST",
     eventDetails: "ATELIER SPECIAL · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card1.png",
+    image: "/card-img/card1.webp",
     rotation: "7deg",
     translateY: "-20.28px",
   },
@@ -163,7 +163,7 @@ const collectionItems = [
     title: "MIDNIGHT MANDALA KAFTAN",
     materials: "MIDNIGHT CASHMERE · STAR MANDALA",
     eventDetails: "BESPOKE SUITE · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card10.png",
+    image: "/card-img/card10.webp",
     rotation: "-7deg",
     translateY: "-23.75px",
   },
@@ -172,7 +172,7 @@ const collectionItems = [
     title: "SOVEREIGN CHEVRON AGBADA",
     materials: "PURE WHITE COTTON · GOLD LATTICE",
     eventDetails: "CEREMONIAL · WARRI, DELTA STATE · 2026",
-    image: "/card-img/card5.png",
+    image: "/card-img/card5.webp",
     rotation: "7deg",
     translateY: "-23.23px",
   },
@@ -231,7 +231,7 @@ function LoadingScreen({ onComplete, onPortalOpen }) {
       >
         <div className={styles.loaderLogoWrapper}>
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="SKUCHEEZ COUTURE Logo"
             width={340}
             height={95}
@@ -438,7 +438,7 @@ export default function Home() {
           >
             <div className={styles.logoBox}>
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="SKUCHEEZ COUTURE Logo"
                 width={320}
                 height={90}

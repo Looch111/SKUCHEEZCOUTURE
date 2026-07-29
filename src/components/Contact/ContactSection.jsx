@@ -79,7 +79,7 @@ export default function ContactSection() {
           <div className={styles.studioMeta}>
             <span className={styles.subtag}>STUDIO</span>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="SKUCHEEZ COUTURE"
               width={180}
               height={45}
@@ -103,7 +103,7 @@ export default function ContactSection() {
             onClick={() => setIsMobileRevealed((prev) => !prev)}
           >
             <Image
-              src="/card-img/owner.png"
+              src="/card-img/owner.webp"
               alt="SKUCHEEZ COUTURE Founder"
               fill
               sizes="(max-width: 768px) 100vw, 45vw"

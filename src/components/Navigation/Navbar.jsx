@@ -111,7 +111,7 @@ export default function Navbar() {
             aria-label="SKUCHEEZ COUTURE Home"
           >
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="SKUCHEEZ COUTURE"
               width={160}
               height={45}
