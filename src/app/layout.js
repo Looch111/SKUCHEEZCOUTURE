@@ -57,15 +57,10 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.webp",
+        url: "https://skucheez-couture.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "SKUCHEEZ COUTURE Atelier Logo",
-      },
-      {
-        url: "/card-img/card5.webp",
-        width: 1200,
-        height: 630,
+        type: "image/jpeg",
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
       },
     ],
@@ -77,7 +72,7 @@ export const metadata = {
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
     site: "@Skucheezfx",
     creator: "@Skucheezfx",
-    images: ["/logo.webp", "/card-img/card5.webp"],
+    images: ["https://skucheez-couture.com/og-image.jpg"],
   },
   icons: {
     icon: [
@@ -93,6 +88,28 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${jakarta.variable} ${italiana.variable}`}>
       <head>
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="SKUCHEEZ COUTURE" />
+        <meta property="og:title" content="SKUCHEEZ COUTURE — Luxury West African Menswear" />
+        <meta
+          property="og:description"
+          content="Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri."
+        />
+        <meta property="og:image" content="https://skucheez-couture.com/og-image.jpg" />
+        <meta property="og:image:secure_url" content="https://skucheez-couture.com/og-image.jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@Skucheezfx" />
+        <meta name="twitter:title" content="SKUCHEEZ COUTURE — Luxury West African Menswear" />
+        <meta
+          name="twitter:description"
+          content="Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri."
+        />
+        <meta name="twitter:image" content="https://skucheez-couture.com/og-image.jpg" />
+
         <link rel="preload" href="/man.mp4" as="video" type="video/mp4" />
         <link rel="preload" href="/logo.webp" as="image" type="image/webp" />
       </head>
