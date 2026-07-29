@@ -180,81 +180,81 @@ const collectionItems = [
 
 function LoadingScreen({ onComplete }) {
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
-  const [progress, setProgress] = useState(1);
-  const [statusText, setStatusText] = useState("INITIALIZING ATELIER");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // 1. Initial 1.5s calm period at 1% for browser hydration & JS compilation to calm down
-    const calmTimer = setTimeout(() => {
-      setStatusText("PRELOADING COLLECTION");
+    // Realistic luxury cadence: load small -> pause -> load -> pause -> reach 100% -> hold -> open portal
+    const steps = [
+      { target: 26, incrementSpeed: 30, pauseAfter: 350 },
+      { target: 62, incrementSpeed: 35, pauseAfter: 420 },
+      { target: 91, incrementSpeed: 30, pauseAfter: 300 },
+      { target: 100, incrementSpeed: 40, pauseAfter: 1200 },
+    ];
 
-      // 2. Preload critical assets in background after browser thread calms down
-      if (typeof window !== "undefined") {
-        const criticalAssets = [
-          "/logo.png",
-          "/about1.webp",
-          "/card-img/owner.webp",
-          "/card-img/card1.png",
-          "/card-img/card2.png",
-          "/card-img/card3.png",
-          "/card-img/card4.png",
-          "/card-img/card5.png",
-          "/card-img/card6.png",
-          "/card-img/card7.png",
-          "/card-img/card8.png",
-        ];
+    let currentStep = 0;
+    let isCancelled = false;
 
-        criticalAssets.forEach((src) => {
-          const img = new window.Image();
-          img.src = src;
-        });
+    const processStep = () => {
+      if (isCancelled || currentStep >= steps.length) return;
 
-        ["/man.mp4", "/vid.mp4"].forEach((src) => {
-          const video = document.createElement("video");
-          video.preload = "auto";
-          video.src = src;
-        });
-      }
+      const { target, incrementSpeed, pauseAfter } = steps[currentStep];
 
-      // 3. Steady progress ticker pacing
-      const progressTimer = setInterval(() => {
+      const interval = setInterval(() => {
+        if (isCancelled) {
+          clearInterval(interval);
+          return;
+        }
+
         setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(progressTimer);
-            setStatusText("100% · ATELIER READY");
-            setTimeout(() => setIsOpeningPortal(true), 1000);
-            setTimeout(() => onComplete(), 3000);
-            return 100;
-          }
-          const increment = prev < 75 ? Math.floor(Math.random() * 2 + 1) : 1;
-          return Math.min(100, prev + increment);
-        });
-      }, 50);
-    }, 1500);
+          if (prev >= target) {
+            clearInterval(interval);
+            currentStep++;
 
-    return () => clearTimeout(calmTimer);
+            if (currentStep < steps.length) {
+              setTimeout(processStep, pauseAfter);
+            } else {
+              // Reached 100% and finished pauseAfter hold, trigger portal split
+              setTimeout(() => {
+                if (!isCancelled) {
+                  setIsOpeningPortal(true);
+                  setTimeout(() => {
+                    if (!isCancelled) onComplete();
+                  }, 1200);
+                }
+              }, pauseAfter);
+            }
+            return target;
+          }
+          return prev + 1;
+        });
+      }, incrementSpeed);
+    };
+
+    const initialDelay = setTimeout(processStep, 200);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(initialDelay);
+    };
   }, [onComplete]);
 
   return (
     <div className={styles.loaderContainer}>
       {/* Left Portal Door */}
       <div
-        className={`${styles.portalDoor} ${styles.portalDoorLeft} ${
-          isOpeningPortal ? styles.openLeft : ""
-        }`}
+        className={`${styles.portalDoor} ${styles.portalDoorLeft} ${isOpeningPortal ? styles.openLeft : ""
+          }`}
       />
       {/* Right Portal Door */}
       <div
-        className={`${styles.portalDoor} ${styles.portalDoorRight} ${
-          isOpeningPortal ? styles.openRight : ""
-        }`}
+        className={`${styles.portalDoor} ${styles.portalDoorRight} ${isOpeningPortal ? styles.openRight : ""
+          }`}
       />
 
       {/* Expanding Central Gold Shockwave Flare */}
       <div
-        className={`${styles.portalRingFlare} ${
-          isOpeningPortal ? styles.expandFlare : ""
-        }`}
+        className={`${styles.portalRingFlare} ${isOpeningPortal ? styles.expandFlare : ""
+          }`}
       />
 
       {/* Center Logo Content */}
@@ -284,7 +284,7 @@ function LoadingScreen({ onComplete }) {
             style={{ width: `${Math.min(progress, 100)}%` }}
           />
         </div>
-        <span className={styles.loaderPercent}>{statusText} ({Math.min(progress, 100)}%)</span>
+        <span className={styles.loaderPercent}>{Math.min(progress, 100)}%</span>
       </div>
     </div>
   );
