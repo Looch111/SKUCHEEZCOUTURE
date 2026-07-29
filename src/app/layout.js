@@ -63,7 +63,7 @@ export const metadata = {
         alt: "SKUCHEEZ COUTURE Atelier Logo",
       },
       {
-        url: "/card-img/logo1.png",
+        url: "/card-img/card5.png",
         width: 1200,
         height: 630,
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
@@ -77,7 +77,7 @@ export const metadata = {
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
     site: "@Skucheezfx",
     creator: "@Skucheezfx",
-    images: ["/logo.png", "/card-img/logo1.png"],
+    images: ["/logo.png", "/card-img/card5.png"],
   },
   icons: {
     icon: [
