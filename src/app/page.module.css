@@ -40,14 +40,14 @@
   transform: translate3d(-102%, 0, 0);
   opacity: 0.9;
   border-right: 2px solid #f5d061;
-  box-shadow: 15px 0 50px rgba(245, 208, 97, 0.6);
+  box-shadow: 8px 0 25px rgba(245, 208, 97, 0.4);
 }
 
 .openRight {
   transform: translate3d(102%, 0, 0);
   opacity: 0.9;
   border-left: 2px solid #f5d061;
-  box-shadow: -15px 0 50px rgba(245, 208, 97, 0.6);
+  box-shadow: -8px 0 25px rgba(245, 208, 97, 0.4);
 }
 
 .portalRingFlare {

@@ -27,7 +27,7 @@ function GoldParticles() {
     window.addEventListener("resize", handleResize, { passive: true });
 
     const isMobile = width < 768;
-    const particleCount = isMobile ? 30 : 60;
+    const particleCount = isMobile ? 12 : 50;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -235,6 +235,7 @@ function LoadingScreen({ onComplete, onPortalStart }) {
             alt="SKUCHEEZ COUTURE Logo"
             width={340}
             height={95}
+            style={{ width: "auto", height: "auto" }}
             priority
             className={styles.loaderLogo}
           />
@@ -411,7 +412,7 @@ export default function Home() {
           <div className={styles.bgVignette} />
 
           {/* Ambient Flying Gold Dust Particles */}
-          <GoldParticles />
+          {(isPortalOpening || !isLoading) && <GoldParticles />}
 
           {/* Header Navigation Bar */}
           <header
@@ -425,6 +426,7 @@ export default function Home() {
                 alt="SKUCHEEZ COUTURE Logo"
                 width={320}
                 height={90}
+                style={{ width: "auto", height: "auto" }}
                 className={styles.logoImg}
                 priority
               />

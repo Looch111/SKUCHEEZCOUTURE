@@ -115,6 +115,7 @@ export default function Navbar() {
               alt="SKUCHEEZ COUTURE"
               width={160}
               height={45}
+              style={{ width: "auto", height: "auto" }}
               className={styles.navLogoImage}
               priority
             />
