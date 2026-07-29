@@ -94,7 +94,7 @@ export default function Navbar() {
           <span className={styles.tickerDot}>•</span>
           <span>PRIVATE BESPOKE FITTINGS BY APPOINTMENT ONLY</span>
           <span className={styles.tickerDot}>•</span>
-          <span><Phone size={11} className={styles.tickerIcon} /> GLOBAL CONCIERGE: +234 800 000 0000</span>
+          <span><Phone size={11} className={styles.tickerIcon} /> GLOBAL CONCIERGE: +234 701 314 4975</span>
         </div>
       </div>
 
@@ -215,10 +215,10 @@ export default function Navbar() {
 
             <div className={styles.mobileContactInfo}>
               <a href={SOCIAL_LINKS.phone} className={styles.mobileContactItem}>
-                <Phone size={14} /> +234 800 000 0000
+                <Phone size={14} /> +234 701 314 4975
               </a>
               <a href={SOCIAL_LINKS.email} className={styles.mobileContactItem}>
-                <Mail size={14} /> concierge@skucheez-couture.com
+                <Mail size={14} /> skucheezcouture@warri.com
               </a>
             </div>
           </div>
