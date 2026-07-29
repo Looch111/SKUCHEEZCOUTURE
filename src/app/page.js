@@ -256,16 +256,6 @@ export default function Home() {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [mobileSelectedCard, setMobileSelectedCard] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const storyVideoRef = useRef(null);
-
-  // Play background story video ONLY after portal loader finishes opening
-  useEffect(() => {
-    if (!isLoading && storyVideoRef.current) {
-      storyVideoRef.current.play().catch(() => {
-        // Autoplay browser fallback
-      });
-    }
-  }, [isLoading]);
 
   // Ensure page always starts at the top on refresh
   useEffect(() => {
@@ -688,19 +678,21 @@ export default function Home() {
                 quality={95}
                 className={styles.storyBgImgDesktop}
               />
-              <div className={styles.storyVideoWrapper}>
-                <video
-                  ref={storyVideoRef}
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                  className={styles.storyBgVideoMobile}
-                >
-                  <source src="/vid.mp4" type="video/mp4" />
-                </video>
-                <div className={styles.storyVideoBlendOverlay} />
-              </div>
+              {!isLoading && (
+                <div className={styles.storyVideoWrapper}>
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className={styles.storyBgVideoMobile}
+                  >
+                    <source src="/vid.mp4" type="video/mp4" />
+                  </video>
+                  <div className={styles.storyVideoBlendOverlay} />
+                </div>
+              )}
               <div className={styles.storyOverlayGradient} />
             </div>
 
