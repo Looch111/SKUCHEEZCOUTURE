@@ -5,8 +5,9 @@ export const runtime = "edge";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const title = searchParams.get("title") || "SKUCHEEZ COUTURE";
-    const subtitle = searchParams.get("subtitle") || "Luxury West African Menswear · Warri, Nigeria";
+    const host = request.headers.get("host") || "skucheezcouture.vercel.app";
+    const protocol = host.includes("localhost") ? "http" : "https";
+    const logoUrl = `${protocol}://${host}/logo.png`;
 
     return new ImageResponse(
       (
@@ -19,49 +20,48 @@ export async function GET(request) {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "#050505",
-            backgroundImage: "radial-gradient(circle at center, #1e1b0e 0%, #050505 75%)",
+            backgroundImage: "radial-gradient(ellipse at center, #1b170a 0%, #050505 80%)",
             color: "#ffffff",
-            padding: "40px 80px",
-            border: "10px solid #d4af37",
+            padding: "40px 60px",
+            border: "8px solid #d4af37",
             boxSizing: "border-box",
           }}
         >
+          {/* Main Logo Image */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoUrl}
+            alt="SKUCHEEZ COUTURE Logo"
+            width="680"
+            height="203"
+            style={{
+              objectFit: "contain",
+              marginBottom: "24px",
+            }}
+          />
+
           <div
             style={{
-              display: "flex",
-              fontSize: 20,
-              letterSpacing: "0.35em",
-              color: "#d4af37",
+              fontSize: 22,
+              letterSpacing: "0.32em",
+              color: "#f5d061",
               textTransform: "uppercase",
-              marginBottom: 24,
+              marginBottom: "16px",
             }}
           >
-            {subtitle}
+            Luxury West African Menswear · Warri, Nigeria
           </div>
+
           <div
             style={{
-              fontSize: 64,
-              fontWeight: "bold",
-              textAlign: "center",
-              background: "linear-gradient(135deg, #fff2aa 0%, #f5d061 50%, #d4af37 100%)",
-              backgroundClip: "text",
-              color: "transparent",
-              marginBottom: 28,
-              lineHeight: 1.1,
-            }}
-          >
-            {title}
-          </div>
-          <div
-            style={{
-              fontSize: 24,
-              color: "rgba(255, 255, 255, 0.8)",
+              fontSize: 20,
+              color: "rgba(255, 255, 255, 0.75)",
               textAlign: "center",
               maxWidth: "850px",
               fontStyle: "italic",
             }}
           >
-            “Handcrafted Agbada, Ankara Suits & Kaftans for Gentlemen of Culture — Proudly Made in Warri”
+            “Handcrafted Agbada, Ankara Suits & Kaftans for Gentlemen of Culture”
           </div>
         </div>
       ),
