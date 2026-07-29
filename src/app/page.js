@@ -674,6 +674,7 @@ export default function Home() {
                 src="/about1.webp"
                 alt="Inside the SKUCHEEZ COUTURE atelier — tailors at work"
                 fill
+                priority
                 quality={95}
                 className={styles.storyBgImgDesktop}
               />
@@ -683,7 +684,8 @@ export default function Home() {
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="auto"
+                  onCanPlay={(e) => e.target.play()}
                   className={styles.storyBgVideoMobile}
                 >
                   <source src="/vid.mp4" type="video/mp4" />
