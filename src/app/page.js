@@ -180,53 +180,59 @@ const collectionItems = [
 
 function LoadingScreen({ onComplete }) {
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
+  const [statusText, setStatusText] = useState("INITIALIZING ATELIER");
 
   useEffect(() => {
-    // 1. Background preload critical image assets into browser cache
-    const criticalAssets = [
-      "/logo.png",
-      "/about1.webp",
-      "/card-img/owner.webp",
-      "/card-img/card1.png",
-      "/card-img/card2.png",
-      "/card-img/card3.png",
-      "/card-img/card4.png",
-      "/card-img/card5.png",
-      "/card-img/card6.png",
-      "/card-img/card7.png",
-      "/card-img/card8.png",
-    ];
+    // 1. Initial 1.5s calm period at 1% for browser hydration & JS compilation to calm down
+    const calmTimer = setTimeout(() => {
+      setStatusText("PRELOADING COLLECTION");
 
-    if (typeof window !== "undefined") {
-      criticalAssets.forEach((src) => {
-        const img = new window.Image();
-        img.src = src;
-      });
+      // 2. Preload critical assets in background after browser thread calms down
+      if (typeof window !== "undefined") {
+        const criticalAssets = [
+          "/logo.png",
+          "/about1.webp",
+          "/card-img/owner.webp",
+          "/card-img/card1.png",
+          "/card-img/card2.png",
+          "/card-img/card3.png",
+          "/card-img/card4.png",
+          "/card-img/card5.png",
+          "/card-img/card6.png",
+          "/card-img/card7.png",
+          "/card-img/card8.png",
+        ];
 
-      // 2. Preload video buffers into memory
-      ["/man.mp4", "/vid.mp4"].forEach((src) => {
-        const video = document.createElement("video");
-        video.preload = "auto";
-        video.src = src;
-      });
-    }
+        criticalAssets.forEach((src) => {
+          const img = new window.Image();
+          img.src = src;
+        });
 
-    // 3. Smooth luxury progress ticker pacing
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setTimeout(() => setIsOpeningPortal(true), 800);
-          setTimeout(() => onComplete(), 2800);
-          return 100;
-        }
-        const increment = prev < 80 ? Math.floor(Math.random() * 3 + 2) : 1;
-        return Math.min(100, prev + increment);
-      });
-    }, 45);
+        ["/man.mp4", "/vid.mp4"].forEach((src) => {
+          const video = document.createElement("video");
+          video.preload = "auto";
+          video.src = src;
+        });
+      }
 
-    return () => clearInterval(timer);
+      // 3. Steady progress ticker pacing
+      const progressTimer = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(progressTimer);
+            setStatusText("100% · ATELIER READY");
+            setTimeout(() => setIsOpeningPortal(true), 1000);
+            setTimeout(() => onComplete(), 3000);
+            return 100;
+          }
+          const increment = prev < 75 ? Math.floor(Math.random() * 2 + 1) : 1;
+          return Math.min(100, prev + increment);
+        });
+      }, 50);
+    }, 1500);
+
+    return () => clearTimeout(calmTimer);
   }, [onComplete]);
 
   return (
@@ -278,9 +284,7 @@ function LoadingScreen({ onComplete }) {
             style={{ width: `${Math.min(progress, 100)}%` }}
           />
         </div>
-        <span className={styles.loaderPercent}>
-          {progress >= 100 ? "100% · ATELIER READY" : `${Math.min(progress, 100)}%`}
-        </span>
+        <span className={styles.loaderPercent}>{statusText} ({Math.min(progress, 100)}%)</span>
       </div>
     </div>
   );
