@@ -1,0 +1,52 @@
+.form {
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 0.35rem 0.35rem 0.35rem 1.2rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.submitBtn {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 0.55rem 1.5rem;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.submitBtn:hover {
+  background: #f5d061;
+}
+
+.successMessage {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.5rem 0;
+}

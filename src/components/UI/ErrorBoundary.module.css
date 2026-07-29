@@ -1,0 +1,61 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #040404;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 28rem;
+  padding: 0 1.5rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.message {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.errorDetail {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.5rem;
+}
+
+.retryBtn {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  color: #ffffff;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  margin-top: 0.5rem;
+}
+
+.retryBtn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}

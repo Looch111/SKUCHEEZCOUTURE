@@ -1,0 +1,44 @@
+{
+  "name": "skucheez-couture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bespoke West African ceremonial couture — SKUCHEEZ COUTURE",
+  "keywords": [
+    "agbada",
+    "bespoke",
+    "tailoring",
+    "skucheez-couture",
+    "warri-fashion",
+    "nigerian-fashion",
+    "ceremonial-attire",
+    "west-african-textiles"
+  ],
+  "author": "SKUCHEEZ COUTURE",
+  "license": "MIT",
+  "homepage": "https://skucheez-couture.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skucheez-couture/skucheez-couture.git"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,mjs}\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css,mjs}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "lucide-react": "^1.26.0",
+    "next": "16.2.11",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.2.11",
+    "prettier": "^3.4.0",
+    "prettier-plugin-tailwindcss": "^0.6.0"
+  }
+}

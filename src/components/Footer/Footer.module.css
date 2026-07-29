@@ -1,0 +1,198 @@
+.minimalFooter {
+  background: transparent !important;
+  color: #ffffff;
+  padding: 6rem 0 3rem;
+  border-top: none;
+  position: relative;
+  z-index: 10;
+}
+
+.footerContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.brandHeader {
+  margin-bottom: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.brandLogoImage {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+  margin-bottom: 0.6rem;
+  margin-left: -0.75rem;
+  align-self: flex-start;
+  display: block;
+}
+
+.brandSubtitle {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.42);
+  text-transform: uppercase;
+  display: block;
+}
+
+/* 3 Columns Grid */
+.columnsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  margin-bottom: 6rem;
+}
+
+.navColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnHeader {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+  display: block;
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.footerLink {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+  display: inline-block;
+}
+
+.footerLink:hover {
+  color: #f5d061;
+  transform: translateX(3px);
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.infoText {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+}
+
+.infoLink {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.25s ease;
+  display: inline-block;
+}
+
+.infoLink:hover {
+  color: #f5d061;
+}
+
+/* Bottom Bar */
+.bottomBar {
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+}
+
+.craftedMark {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .footerContainer {
+    padding: 0 2rem;
+  }
+
+  .columnsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .minimalFooter {
+    padding: 4.5rem 0 2.5rem;
+  }
+
+  .brandHeader {
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    width: 100%;
+  }
+
+  .brandLogoImage {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-self: center !important;
+    object-position: center !important;
+  }
+
+  .brandSubtitle {
+    text-align: center;
+    width: 100%;
+  }
+
+  .columnsGrid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .brandLogo {
+    font-size: 2.2rem;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
