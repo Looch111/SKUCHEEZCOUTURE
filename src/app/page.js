@@ -178,7 +178,7 @@ const collectionItems = [
   },
 ];
 
-function LoadingScreen({ onComplete }) {
+function LoadingScreen({ onComplete, onPortalStart }) {
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -187,7 +187,10 @@ function LoadingScreen({ onComplete }) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setIsOpeningPortal(true), 1200);
+          setTimeout(() => {
+            setIsOpeningPortal(true);
+            if (onPortalStart) onPortalStart();
+          }, 1200);
           setTimeout(() => onComplete(), 3600);
           return 100;
         }
@@ -196,7 +199,7 @@ function LoadingScreen({ onComplete }) {
     }, 110);
 
     return () => clearInterval(timer);
-  }, [onComplete]);
+  }, [onComplete, onPortalStart]);
 
   return (
     <div className={styles.loaderContainer}>
@@ -252,6 +255,7 @@ function LoadingScreen({ onComplete }) {
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isPortalOpening, setIsPortalOpening] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [mobileSelectedCard, setMobileSelectedCard] = useState(null);
@@ -394,7 +398,12 @@ export default function Home() {
 
   return (
     <>
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {isLoading && (
+        <LoadingScreen
+          onComplete={() => setIsLoading(false)}
+          onPortalStart={() => setIsPortalOpening(true)}
+        />
+      )}
       <div className={`${styles.pageContainer} ${!isLoading ? styles.pageLoaded : ""}`}>
         {/* ---------------- SECTION 1: HERO SHOWCASE ---------------- */}
         <section className={styles.heroContainer}>
@@ -546,14 +555,16 @@ export default function Home() {
               opacity: Math.max(0, 1 - scrollY / 550),
             }}
           >
-            <video
-              src="/man.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={styles.mannequinVideo}
-            />
+            {(isPortalOpening || !isLoading) && (
+              <video
+                src="/man.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={styles.mannequinVideo}
+              />
+            )}
           </div>
 
           {/* Pinned Chest Annotation: "Crafted in Warri." */}
@@ -678,7 +689,7 @@ export default function Home() {
                 quality={95}
                 className={styles.storyBgImgDesktop}
               />
-              {!isLoading && (
+              {(isPortalOpening || !isLoading) && (
                 <div className={styles.storyVideoWrapper}>
                   <video
                     autoPlay
