@@ -256,6 +256,16 @@ export default function Home() {
   const [hoveredCardId, setHoveredCardId] = useState(null);
   const [mobileSelectedCard, setMobileSelectedCard] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const storyVideoRef = useRef(null);
+
+  // Play background story video ONLY after portal loader finishes opening
+  useEffect(() => {
+    if (!isLoading && storyVideoRef.current) {
+      storyVideoRef.current.play().catch(() => {
+        // Autoplay browser fallback
+      });
+    }
+  }, [isLoading]);
 
   // Ensure page always starts at the top on refresh
   useEffect(() => {
@@ -680,12 +690,11 @@ export default function Home() {
               />
               <div className={styles.storyVideoWrapper}>
                 <video
-                  autoPlay
+                  ref={storyVideoRef}
                   loop
                   muted
                   playsInline
                   preload="auto"
-                  onCanPlay={(e) => e.target.play()}
                   className={styles.storyBgVideoMobile}
                 >
                   <source src="/vid.mp4" type="video/mp4" />
