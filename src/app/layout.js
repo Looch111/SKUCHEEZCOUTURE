@@ -57,15 +57,27 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.webp",
+        url: "https://skucheez-couture.com/og-image.png",
+        secureUrl: "https://skucheez-couture.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "SKUCHEEZ COUTURE Atelier Logo",
+        type: "image/png",
+        alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
       },
       {
-        url: "/card-img/card5.webp",
+        url: "https://skucheez-couture.com/api/og",
+        secureUrl: "https://skucheez-couture.com/api/og",
         width: 1200,
         height: 630,
+        type: "image/png",
+        alt: "SKUCHEEZ COUTURE — Luxury West African Menswear Banner",
+      },
+      {
+        url: "https://skucheez-couture.com/og-image.jpg",
+        secureUrl: "https://skucheez-couture.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
         alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
       },
     ],
@@ -77,7 +89,14 @@ export const metadata = {
       "Handcrafted Agbada, Ankara suits, kaftans, and ceremonial attire for weddings, celebrations, and distinguished occasions. Proudly made in Warri.",
     site: "@Skucheezfx",
     creator: "@Skucheezfx",
-    images: ["/logo.webp", "/card-img/card5.webp"],
+    images: [
+      {
+        url: "https://skucheez-couture.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SKUCHEEZ COUTURE — Luxury West African Menswear",
+      },
+    ],
   },
   icons: {
     icon: [
